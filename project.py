@@ -5,28 +5,125 @@ import streamlit as st
 # =========================================================
 
 st.set_page_config(
-    page_title="My App",
+    page_title="My App 💙",
+    page_icon="💙",
     layout="centered"
 )
 
 
 # =========================================================
-# MY PROFILE
+# DARK BLUE THEME + ANIMATIONS
 # =========================================================
 
-st.title("My Profile")
+st.markdown("""
+<style>
+
+/* DARK BLUE ANIMATED BACKGROUND */
+.stApp {
+    background: linear-gradient(
+        135deg,
+        #06152f 0%,
+        #0a2450 50%,
+        #06152f 100%
+    );
+    background-size: 300% 300%;
+    animation: blueBackground 12s ease infinite;
+}
+
+@keyframes blueBackground {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
+/* TITLES */
+h1, h2, h3 {
+    animation: fadeDown 0.8s ease-out;
+}
+
+@keyframes fadeDown {
+    from {
+        opacity: 0;
+        transform: translateY(-15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* BUTTON ANIMATION */
+.stButton > button {
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.stButton > button:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 6px 18px rgba(80, 170, 255, 0.35);
+}
+
+.stButton > button:active {
+    transform: scale(0.95);
+}
+
+
+/* METRIC ANIMATION */
+[data-testid="stMetric"] {
+    animation: popIn 0.5s ease-out;
+}
+
+@keyframes popIn {
+    from {
+        opacity: 0;
+        transform: scale(0.94);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+/* DIVIDER */
+hr {
+    opacity: 0.3;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+
+# =========================================================
+# MY PROFILE 👤
+# =========================================================
+
+st.title("👤 My Profile")
 
 st.write(
-    "Fill in the information below to create your personalized profile."
+    "✨ Fill in the information below to create your personalized profile."
 )
 
 name = st.text_input(
-    "What is your name?",
+    "😊 What is your name?",
     key="profile_name"
 )
 
 age = st.number_input(
-    "How old are you?",
+    "🎂 How old are you?",
     min_value=1,
     max_value=100,
     step=1,
@@ -34,40 +131,40 @@ age = st.number_input(
 )
 
 school = st.text_input(
-    "What school do you go to?",
+    "🏫 What school do you go to?",
     key="profile_school"
 )
 
 subject = st.text_input(
-    "What is your favorite subject?",
+    "📚 What is your favorite subject?",
     key="profile_subject"
 )
 
 hobby = st.text_input(
-    "What is your favorite hobby?",
+    "🎵 What is your favorite hobby?",
     key="profile_hobby"
 )
 
 if st.button(
-    "Create My Profile",
+    "✨ Create My Profile",
     key="create_profile",
     use_container_width=True
 ):
 
     if name and school and subject and hobby:
 
-        st.success("Profile created successfully!")
+        st.success("🎉 Profile created successfully!")
 
-        st.header(f"Hello! My name is {name}.")
+        st.header(f"👋 Hello! My name is {name}.")
 
-        st.write(f"I am **{age} years old**.")
-        st.write(f"I go to **{school}**.")
-        st.write(f"My favorite subject is **{subject}**.")
-        st.write(f"I enjoy **{hobby}**.")
+        st.write(f"🎂 I am **{age} years old**.")
+        st.write(f"🏫 I go to **{school}**.")
+        st.write(f"📚 My favorite subject is **{subject}**.")
+        st.write(f"🎵 I enjoy **{hobby}**.")
 
         st.divider()
 
-        st.subheader("About Me")
+        st.subheader("💙 About Me")
 
         st.info(
             f"{name} is {age} years old and goes to {school}. "
@@ -77,43 +174,57 @@ if st.button(
     else:
 
         st.warning(
-            "Please fill in all the fields before creating your profile."
+            "⚠️ Please fill in all the fields before creating your profile."
         )
 
 
 # =========================================================
-# CALCULATOR
+# CALCULATOR 🧮
 # =========================================================
 
 st.divider()
 
-st.title("Calculator")
+st.title("🧮 Calculator")
+
+st.caption(
+    "✨ Tap the buttons and watch your calculation come to life!"
+)
 
 if "calc_display" not in st.session_state:
     st.session_state.calc_display = "0"
 
 
+# =========================================================
+# CALCULATOR FUNCTIONS
+# =========================================================
+
 def add_number(number):
 
-    if st.session_state.calc_display == "0":
-        st.session_state.calc_display = number
+    display = st.session_state.calc_display
 
-    elif st.session_state.calc_display == "Error":
+    if display == "0" or display == "Error":
+
         st.session_state.calc_display = number
 
     else:
+
         st.session_state.calc_display += number
 
 
 def add_operator(operator):
 
-    if st.session_state.calc_display == "Error":
+    display = st.session_state.calc_display
+
+    if display == "Error":
         return
 
-    if st.session_state.calc_display[-1:] in "+-*/":
+    if display == "0" and operator != "-":
+        return
+
+    if display[-1:] in "+-*/":
 
         st.session_state.calc_display = (
-            st.session_state.calc_display[:-1] + operator
+            display[:-1] + operator
         )
 
     else:
@@ -123,36 +234,53 @@ def add_operator(operator):
 
 def add_decimal():
 
-    current = st.session_state.calc_display
+    display = st.session_state.calc_display
 
-    if current == "Error":
+    if display == "Error":
+
         st.session_state.calc_display = "0."
         return
 
-    last_number = current
+    last_number = display
 
     for operator in "+-*/":
 
         if operator in last_number:
+
             last_number = last_number.split(operator)[-1]
 
     if "." not in last_number:
+
         st.session_state.calc_display += "."
 
 
 def calculate():
 
+    display = st.session_state.calc_display
+
+    if display == "Error":
+        return
+
+    if display[-1:] in "+-*/":
+        return
+
     try:
 
-        expression = st.session_state.calc_display
+        answer = eval(
+            display,
+            {"__builtins__": None},
+            {}
+        )
 
-        if expression[-1:] in "+-*/":
-            return
+        if isinstance(answer, float):
 
-        answer = eval(expression)
+            if answer.is_integer():
 
-        if isinstance(answer, float) and answer.is_integer():
-            answer = int(answer)
+                answer = int(answer)
+
+            else:
+
+                answer = round(answer, 10)
 
         st.session_state.calc_display = str(answer)
 
@@ -166,199 +294,232 @@ def clear():
     st.session_state.calc_display = "0"
 
 
-# Calculator display
+# =========================================================
+# CALCULATOR DISPLAY
+# =========================================================
+
+st.markdown(
+    "### 💙 Ready to calculate? ✨"
+)
 
 st.text_input(
     "Display",
     value=st.session_state.calc_display,
-    disabled=True,
-    key="calculator_display"
+    disabled=True
 )
 
 
-# Row 1
+# =========================================================
+# CALCULATOR ROW 1
+# =========================================================
 
 c1, c2, c3, c4 = st.columns(4)
 
 with c1:
+
     st.button(
-        "7",
+        "7️⃣",
         use_container_width=True,
         on_click=add_number,
         args=("7",),
-        key="calc_7"
+        key="calculator_7"
     )
 
 with c2:
+
     st.button(
-        "8",
+        "8️⃣",
         use_container_width=True,
         on_click=add_number,
         args=("8",),
-        key="calc_8"
+        key="calculator_8"
     )
 
 with c3:
+
     st.button(
-        "9",
+        "9️⃣",
         use_container_width=True,
         on_click=add_number,
         args=("9",),
-        key="calc_9"
+        key="calculator_9"
     )
 
 with c4:
+
     st.button(
-        "÷",
+        "➗",
         use_container_width=True,
         on_click=add_operator,
         args=("/",),
-        key="calc_divide"
+        key="calculator_divide"
     )
 
 
-# Row 2
+# =========================================================
+# CALCULATOR ROW 2
+# =========================================================
 
 c1, c2, c3, c4 = st.columns(4)
 
 with c1:
+
     st.button(
-        "4",
+        "4️⃣",
         use_container_width=True,
         on_click=add_number,
         args=("4",),
-        key="calc_4"
+        key="calculator_4"
     )
 
 with c2:
+
     st.button(
-        "5",
+        "5️⃣",
         use_container_width=True,
         on_click=add_number,
         args=("5",),
-        key="calc_5"
+        key="calculator_5"
     )
 
 with c3:
+
     st.button(
-        "6",
+        "6️⃣",
         use_container_width=True,
         on_click=add_number,
         args=("6",),
-        key="calc_6"
+        key="calculator_6"
     )
 
 with c4:
+
     st.button(
-        "×",
+        "✖️",
         use_container_width=True,
         on_click=add_operator,
         args=("*",),
-        key="calc_multiply"
+        key="calculator_multiply"
     )
 
 
-# Row 3
+# =========================================================
+# CALCULATOR ROW 3
+# =========================================================
 
 c1, c2, c3, c4 = st.columns(4)
 
 with c1:
+
     st.button(
-        "1",
+        "1️⃣",
         use_container_width=True,
         on_click=add_number,
         args=("1",),
-        key="calc_1"
+        key="calculator_1"
     )
 
 with c2:
+
     st.button(
-        "2",
+        "2️⃣",
         use_container_width=True,
         on_click=add_number,
         args=("2",),
-        key="calc_2"
+        key="calculator_2"
     )
 
 with c3:
+
     st.button(
-        "3",
+        "3️⃣",
         use_container_width=True,
         on_click=add_number,
         args=("3",),
-        key="calc_3"
+        key="calculator_3"
     )
 
 with c4:
+
     st.button(
-        "−",
+        "➖",
         use_container_width=True,
         on_click=add_operator,
         args=("-",),
-        key="calc_minus"
+        key="calculator_minus"
     )
 
 
-# Row 4
+# =========================================================
+# CALCULATOR ROW 4
+# =========================================================
 
 c1, c2, c3, c4 = st.columns(4)
 
 with c1:
+
     st.button(
-        "0",
+        "0️⃣",
         use_container_width=True,
         on_click=add_number,
         args=("0",),
-        key="calc_0"
+        key="calculator_0"
     )
 
 with c2:
+
     st.button(
-        ".",
+        "🔵 .",
         use_container_width=True,
         on_click=add_decimal,
-        key="calc_decimal"
+        key="calculator_decimal"
     )
 
 with c3:
+
     st.button(
-        "+",
+        "➕",
         use_container_width=True,
         on_click=add_operator,
         args=("+",),
-        key="calc_plus"
+        key="calculator_plus"
     )
 
 with c4:
+
     st.button(
-        "=",
+        "🟰",
         use_container_width=True,
         on_click=calculate,
-        key="calc_equals"
+        key="calculator_equals"
     )
 
 
 st.button(
-    "CLEAR",
+    "🗑️ CLEAR",
     use_container_width=True,
     on_click=clear,
-    key="calc_clear"
+    key="calculator_clear"
 )
 
 
 # =========================================================
-# GRADE CALCULATOR
+# GRADE CALCULATOR 📊
 # =========================================================
 
 st.divider()
 
-st.title("Grade Calculator")
+st.title("📊 Grade Calculator")
 
 st.write(
-    "Enter your subjects and marks to calculate your grades, "
+    "✨ Enter your subjects and marks to calculate your grades, "
     "percentage, and GPA."
 )
 
+
+# =========================================================
+# GRADE FUNCTIONS
+# =========================================================
 
 def get_grade(percentage):
 
@@ -415,7 +576,7 @@ def get_gpa(percentage):
 
 
 number_of_subjects = st.number_input(
-    "How many subjects do you have?",
+    "📚 How many subjects do you have?",
     min_value=1,
     max_value=15,
     value=3,
@@ -424,13 +585,19 @@ number_of_subjects = st.number_input(
 )
 
 
+# =========================================================
+# GRADE FORM
+# =========================================================
+
 with st.form("grade_calculator_form"):
 
     subjects = []
 
     for i in range(int(number_of_subjects)):
 
-        st.subheader(f"Subject {i + 1}")
+        st.subheader(
+            f"📖 Subject {i + 1}"
+        )
 
         col1, col2, col3 = st.columns(
             [2, 1, 1]
@@ -471,10 +638,14 @@ with st.form("grade_calculator_form"):
         })
 
     calculate_grades = st.form_submit_button(
-        "Calculate My Grades",
+        "✨ Calculate My Grades",
         use_container_width=True
     )
 
+
+# =========================================================
+# GRADE RESULTS
+# =========================================================
 
 if calculate_grades:
 
@@ -485,7 +656,7 @@ if calculate_grades:
         if not subject["name"].strip():
 
             st.error(
-                "Please enter a name for every subject."
+                "⚠️ Please enter a name for every subject."
             )
 
             valid = False
@@ -494,7 +665,7 @@ if calculate_grades:
         if subject["marks"] > subject["maximum"]:
 
             st.error(
-                f"{subject['name']}: Your marks cannot be "
+                f"⚠️ {subject['name']}: Your marks cannot be "
                 "higher than the maximum marks."
             )
 
@@ -543,21 +714,21 @@ if calculate_grades:
         )
 
 
-        st.header("Your Results")
+        st.header("🎉 Your Results")
 
         col1, col2 = st.columns(2)
 
         with col1:
 
             st.metric(
-                "Total Marks",
+                "📝 Total Marks",
                 f"{total_marks:g}/{total_possible:g}"
             )
 
         with col2:
 
             st.metric(
-                "Percentage",
+                "📈 Percentage",
                 f"{percentage:.1f}%"
             )
 
@@ -567,19 +738,19 @@ if calculate_grades:
         with col1:
 
             st.metric(
-                "GPA",
+                "🎓 GPA",
                 f"{gpa:.2f}/4.0"
             )
 
         with col2:
 
             st.metric(
-                "Overall Grade",
+                "🏆 Overall Grade",
                 overall_grade
             )
 
 
-        st.header("Overall Performance")
+        st.header("📊 Overall Performance")
 
         st.progress(
             min(percentage / 100, 1.0)
@@ -589,35 +760,35 @@ if calculate_grades:
         if percentage >= 90:
 
             st.success(
-                "Excellent! Outstanding performance!"
+                "🌟 Excellent! Outstanding performance!"
             )
 
         elif percentage >= 80:
 
             st.success(
-                "Great job! Keep it up!"
+                "🎉 Great job! Keep it up!"
             )
 
         elif percentage >= 70:
 
             st.info(
-                "Good work! Keep improving!"
+                "👍 Good work! Keep improving!"
             )
 
         elif percentage >= 60:
 
             st.warning(
-                "Keep studying and practicing!"
+                "📚 Keep studying and practicing!"
             )
 
         else:
 
             st.error(
-                "Keep working hard. You can improve!"
+                "💪 Keep working hard. You can improve!"
             )
 
 
-        st.header("Subject Results")
+        st.header("📚 Subject Results")
 
         for subject in subjects:
 
@@ -631,14 +802,14 @@ if calculate_grades:
             )
 
             st.subheader(
-                subject["name"]
+                f"📖 {subject['name']}"
             )
 
             col1, col2, col3 = st.columns(3)
 
             with col1:
 
-                st.write("**Marks**")
+                st.write("**📝 Marks**")
 
                 st.write(
                     f"{subject['marks']:g}/"
@@ -647,7 +818,7 @@ if calculate_grades:
 
             with col2:
 
-                st.write("**Percentage**")
+                st.write("**📈 Percentage**")
 
                 st.write(
                     f"{subject_percentage:.1f}%"
@@ -655,7 +826,7 @@ if calculate_grades:
 
             with col3:
 
-                st.write("**Grade**")
+                st.write("**🏆 Grade**")
 
                 st.write(
                     subject_grade
@@ -665,17 +836,21 @@ if calculate_grades:
 
 
 # =========================================================
-# QUIZ MASTER
+# QUIZ MASTER 📝
 # =========================================================
 
-st.title("Quiz Master")
+st.divider()
+
+st.title("📝 Quiz Master")
 
 st.write(
-    "Create your own multiple-choice quiz!"
+    "✨ Create your own multiple-choice quiz!"
 )
 
 
-# Session state
+# =========================================================
+# QUIZ SESSION STATE
+# =========================================================
 
 if "quiz_page" not in st.session_state:
     st.session_state.quiz_page = "setup"
@@ -700,7 +875,7 @@ if "submitted" not in st.session_state:
 if st.session_state.quiz_page == "setup":
 
     number = st.number_input(
-        "How many questions?",
+        "🔢 How many questions?",
         min_value=1,
         max_value=20,
         value=5,
@@ -713,7 +888,7 @@ if st.session_state.quiz_page == "setup":
     for i in range(int(number)):
 
         st.subheader(
-            f"Question {i + 1}"
+            f"❓ Question {i + 1}"
         )
 
         question = st.text_input(
@@ -727,13 +902,13 @@ if st.session_state.quiz_page == "setup":
         with col1:
 
             option_a = st.text_input(
-                "Option A",
+                "🅰️ Option A",
                 key=f"option_a_{i}",
                 placeholder="Paris"
             )
 
             option_c = st.text_input(
-                "Option C",
+                "©️ Option C",
                 key=f"option_c_{i}",
                 placeholder="Rome"
             )
@@ -741,19 +916,19 @@ if st.session_state.quiz_page == "setup":
         with col2:
 
             option_b = st.text_input(
-                "Option B",
+                "🅱️ Option B",
                 key=f"option_b_{i}",
                 placeholder="London"
             )
 
             option_d = st.text_input(
-                "Option D",
+                "🆓 Option D",
                 key=f"option_d_{i}",
                 placeholder="Madrid"
             )
 
         correct = st.selectbox(
-            "Correct answer",
+            "✅ Correct answer",
             ["A", "B", "C", "D"],
             key=f"correct_{i}"
         )
@@ -769,7 +944,7 @@ if st.session_state.quiz_page == "setup":
 
 
     if st.button(
-        "START QUIZ",
+        "🚀 START QUIZ",
         use_container_width=True
     ):
 
@@ -802,7 +977,7 @@ if st.session_state.quiz_page == "setup":
         else:
 
             st.error(
-                "Please fill in every question and every option."
+                "⚠️ Please fill in every question and every option."
             )
 
 
@@ -813,17 +988,19 @@ if st.session_state.quiz_page == "setup":
 elif st.session_state.quiz_page == "quiz":
 
     questions = st.session_state.questions
+
     current = st.session_state.current
+
     total = len(questions)
 
 
     # =====================================================
-    # RESULTS
+    # QUIZ RESULTS
     # =====================================================
 
     if current >= total:
 
-        st.subheader("Quiz Complete!")
+        st.subheader("🎉 Quiz Complete!")
 
         score = st.session_state.score
 
@@ -837,14 +1014,14 @@ elif st.session_state.quiz_page == "quiz":
         with col1:
 
             st.metric(
-                "Score",
+                "🏆 Score",
                 f"{score} / {total}"
             )
 
         with col2:
 
             st.metric(
-                "Percentage",
+                "📈 Percentage",
                 f"{percentage:.1f}%"
             )
 
@@ -852,30 +1029,30 @@ elif st.session_state.quiz_page == "quiz":
         if percentage >= 90:
 
             st.success(
-                "Excellent! You're a Quiz Master!"
+                "🌟 Excellent! You're a Quiz Master!"
             )
 
         elif percentage >= 75:
 
             st.success(
-                "Great job! Keep it up!"
+                "🎉 Great job! Keep it up!"
             )
 
         elif percentage >= 50:
 
             st.info(
-                "Good effort! You can do even better!"
+                "👍 Good effort! You can do even better!"
             )
 
         else:
 
             st.warning(
-                "Keep practicing! You'll improve!"
+                "📚 Keep practicing! You'll improve!"
             )
 
 
         if st.button(
-            "CREATE NEW QUIZ",
+            "🔄 CREATE NEW QUIZ",
             use_container_width=True
         ):
 
@@ -897,7 +1074,7 @@ elif st.session_state.quiz_page == "quiz":
         q = questions[current]
 
         st.write(
-            f"**Question {current + 1} of {total}**"
+            f"**❓ Question {current + 1} of {total}**"
         )
 
         st.progress(
@@ -923,7 +1100,7 @@ elif st.session_state.quiz_page == "quiz":
 
 
         selected = st.radio(
-            "Choose your answer:",
+            "💭 Choose your answer:",
             letters,
             format_func=answer_text,
             key=f"answer_{current}",
@@ -934,7 +1111,7 @@ elif st.session_state.quiz_page == "quiz":
         if not st.session_state.submitted:
 
             if st.button(
-                "SUBMIT ANSWER",
+                "✅ SUBMIT ANSWER",
                 use_container_width=True
             ):
 
@@ -952,13 +1129,13 @@ elif st.session_state.quiz_page == "quiz":
             if selected == q["correct"]:
 
                 st.success(
-                    "Correct! Great job!"
+                    "🎉 Correct! Great job!"
                 )
 
             else:
 
                 st.error(
-                    f"Wrong! The correct answer is "
+                    f"❌ Wrong! The correct answer is "
                     f"**{q['correct']}**."
                 )
 
@@ -966,7 +1143,7 @@ elif st.session_state.quiz_page == "quiz":
             if current + 1 < total:
 
                 if st.button(
-                    "NEXT QUESTION",
+                    "➡️ NEXT QUESTION",
                     use_container_width=True
                 ):
 
@@ -978,7 +1155,7 @@ elif st.session_state.quiz_page == "quiz":
             else:
 
                 if st.button(
-                    "SEE RESULTS",
+                    "🏆 SEE RESULTS",
                     use_container_width=True
                 ):
 
