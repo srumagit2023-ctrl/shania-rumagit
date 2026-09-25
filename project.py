@@ -10,7 +10,6 @@ st.set_page_config(
     layout="centered"
 )
 
-
 # =========================================================
 # DARK BLUE THEME + ANIMATIONS
 # =========================================================
@@ -18,7 +17,10 @@ st.set_page_config(
 st.markdown("""
 <style>
 
-/* DARK BLUE ANIMATED BACKGROUND */
+/* =========================================================
+   DARK BLUE ANIMATED BACKGROUND
+   ========================================================= */
+
 .stApp {
     background: linear-gradient(
         135deg,
@@ -34,19 +36,309 @@ st.markdown("""
     0% {
         background-position: 0% 50%;
     }
-
     50% {
         background-position: 100% 50%;
     }
-
     100% {
         background-position: 0% 50%;
     }
 }
 
 
-/* TITLES */
-h1, h2, h3 {
+/* =========================================================
+   FLOATING PARTICLES
+   ========================================================= */
+
+.particle {
+    position: fixed;
+    width: 5px;
+    height: 5px;
+    background: rgba(120, 200, 255, 0.8);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+
+    box-shadow:
+        0 0 6px rgba(100, 190, 255, 0.8),
+        0 0 15px rgba(70, 160, 255, 0.6);
+
+    animation: floatParticle linear infinite;
+}
+
+@keyframes floatParticle {
+    0% {
+        transform: translateY(110vh) scale(0.3);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    50% {
+        transform: translateY(50vh) scale(1);
+        opacity: 0.9;
+    }
+
+    90% {
+        opacity: 0.7;
+    }
+
+    100% {
+        transform: translateY(-10vh) scale(0.2);
+        opacity: 0;
+    }
+}
+
+.p1 {
+    left: 5%;
+    animation-duration: 8s;
+}
+
+.p2 {
+    left: 15%;
+    animation-duration: 11s;
+    animation-delay: 2s;
+}
+
+.p3 {
+    left: 25%;
+    animation-duration: 9s;
+    animation-delay: 4s;
+}
+
+.p4 {
+    left: 35%;
+    animation-duration: 13s;
+    animation-delay: 1s;
+}
+
+.p5 {
+    left: 45%;
+    animation-duration: 10s;
+    animation-delay: 3s;
+}
+
+.p6 {
+    left: 55%;
+    animation-duration: 12s;
+    animation-delay: 5s;
+}
+
+.p7 {
+    left: 65%;
+    animation-duration: 9s;
+    animation-delay: 2s;
+}
+
+.p8 {
+    left: 75%;
+    animation-duration: 14s;
+    animation-delay: 4s;
+}
+
+.p9 {
+    left: 85%;
+    animation-duration: 10s;
+    animation-delay: 1s;
+}
+
+.p10 {
+    left: 95%;
+    animation-duration: 12s;
+    animation-delay: 6s;
+}
+
+.p11 {
+    left: 10%;
+    width: 3px;
+    height: 3px;
+    animation-duration: 15s;
+    animation-delay: 6s;
+}
+
+.p12 {
+    left: 30%;
+    width: 4px;
+    height: 4px;
+    animation-duration: 17s;
+    animation-delay: 8s;
+}
+
+.p13 {
+    left: 50%;
+    width: 3px;
+    height: 3px;
+    animation-duration: 14s;
+    animation-delay: 7s;
+}
+
+.p14 {
+    left: 70%;
+    width: 4px;
+    height: 4px;
+    animation-duration: 16s;
+    animation-delay: 5s;
+}
+
+.p15 {
+    left: 90%;
+    width: 3px;
+    height: 3px;
+    animation-duration: 13s;
+    animation-delay: 9s;
+}
+
+
+/* =========================================================
+   BUTTON ANIMATION
+   ========================================================= */
+
+.stButton > button {
+    position: relative;
+    overflow: hidden;
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.2s ease;
+
+    box-shadow:
+        0 0 0 rgba(80, 170, 255, 0);
+}
+
+
+/* =========================================================
+   HOVER GLOW
+   ========================================================= */
+
+.stButton > button:hover {
+    transform:
+        translateY(-3px)
+        scale(1.03);
+
+    box-shadow:
+        0 0 10px rgba(80, 170, 255, 0.5),
+        0 0 25px rgba(80, 170, 255, 0.35),
+        0 0 45px rgba(80, 170, 255, 0.2);
+}
+
+
+/* =========================================================
+   MOVING SHINE
+   ========================================================= */
+
+.stButton > button::after {
+    content: "";
+
+    position: absolute;
+
+    top: -100%;
+    left: -120%;
+
+    width: 60%;
+    height: 300%;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.7),
+        transparent
+    );
+
+    transform: rotate(25deg);
+
+    pointer-events: none;
+}
+
+.stButton > button:hover::after {
+    animation: buttonShine 0.8s ease;
+}
+
+@keyframes buttonShine {
+    0% {
+        left: -120%;
+    }
+
+    100% {
+        left: 150%;
+    }
+}
+
+
+/* =========================================================
+   CLICK GLOW
+   ========================================================= */
+
+.stButton > button:active {
+    transform: scale(0.94);
+
+    box-shadow:
+        0 0 15px rgba(120, 210, 255, 0.9),
+        0 0 35px rgba(80, 170, 255, 0.7),
+        0 0 60px rgba(80, 170, 255, 0.5);
+
+    transition: 0.05s;
+}
+
+
+/* =========================================================
+   CLICK PULSE
+   ========================================================= */
+
+.stButton > button:active::before {
+    content: "";
+
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    width: 10px;
+    height: 10px;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.95);
+
+    transform: translate(-50%, -50%);
+
+    animation: clickPulse 0.5s ease-out;
+
+    pointer-events: none;
+}
+
+@keyframes clickPulse {
+    0% {
+        width: 10px;
+        height: 10px;
+        opacity: 1;
+
+        box-shadow:
+            0 0 10px white;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+
+    100% {
+        width: 180px;
+        height: 180px;
+        opacity: 0;
+
+        box-shadow:
+            0 0 40px rgba(100, 200, 255, 0.8);
+    }
+}
+
+
+/* =========================================================
+   TITLES
+   ========================================================= */
+
+h1,
+h2,
+h3 {
     animation: fadeDown 0.8s ease-out;
 }
 
@@ -63,24 +355,10 @@ h1, h2, h3 {
 }
 
 
-/* BUTTON ANIMATION */
-.stButton > button {
-    transition:
-        transform 0.15s ease,
-        box-shadow 0.15s ease;
-}
+/* =========================================================
+   METRIC ANIMATION
+   ========================================================= */
 
-.stButton > button:hover {
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 6px 18px rgba(80, 170, 255, 0.35);
-}
-
-.stButton > button:active {
-    transform: scale(0.95);
-}
-
-
-/* METRIC ANIMATION */
 [data-testid="stMetric"] {
     animation: popIn 0.5s ease-out;
 }
@@ -97,13 +375,31 @@ h1, h2, h3 {
     }
 }
 
-
-/* DIVIDER */
 hr {
     opacity: 0.3;
 }
 
 </style>
+
+
+<!-- FLOATING PARTICLES -->
+
+<div class="particle p1"></div>
+<div class="particle p2"></div>
+<div class="particle p3"></div>
+<div class="particle p4"></div>
+<div class="particle p5"></div>
+<div class="particle p6"></div>
+<div class="particle p7"></div>
+<div class="particle p8"></div>
+<div class="particle p9"></div>
+<div class="particle p10"></div>
+<div class="particle p11"></div>
+<div class="particle p12"></div>
+<div class="particle p13"></div>
+<div class="particle p14"></div>
+<div class="particle p15"></div>
+
 """, unsafe_allow_html=True)
 
 
@@ -153,18 +449,35 @@ if st.button(
 
     if name and school and subject and hobby:
 
-        st.success("🎉 Profile created successfully!")
+        st.success(
+            "🎉 Profile created successfully!"
+        )
 
-        st.header(f"👋 Hello! My name is {name}.")
+        st.header(
+            f"👋 Hello! My name is {name}."
+        )
 
-        st.write(f"🎂 I am **{age} years old**.")
-        st.write(f"🏫 I go to **{school}**.")
-        st.write(f"📚 My favorite subject is **{subject}**.")
-        st.write(f"🎵 I enjoy **{hobby}**.")
+        st.write(
+            f"🎂 I am **{age} years old**."
+        )
+
+        st.write(
+            f"🏫 I go to **{school}**."
+        )
+
+        st.write(
+            f"📚 My favorite subject is **{subject}**."
+        )
+
+        st.write(
+            f"🎵 I enjoy **{hobby}**."
+        )
 
         st.divider()
 
-        st.subheader("💙 About Me")
+        st.subheader(
+            "💙 About Me"
+        )
 
         st.info(
             f"{name} is {age} years old and goes to {school}. "
@@ -194,20 +507,13 @@ if "calc_display" not in st.session_state:
     st.session_state.calc_display = "0"
 
 
-# =========================================================
-# CALCULATOR FUNCTIONS
-# =========================================================
-
 def add_number(number):
 
     display = st.session_state.calc_display
 
     if display == "0" or display == "Error":
-
         st.session_state.calc_display = number
-
     else:
-
         st.session_state.calc_display += number
 
 
@@ -246,7 +552,6 @@ def add_decimal():
     for operator in "+-*/":
 
         if operator in last_number:
-
             last_number = last_number.split(operator)[-1]
 
     if "." not in last_number:
@@ -275,11 +580,9 @@ def calculate():
         if isinstance(answer, float):
 
             if answer.is_integer():
-
                 answer = int(answer)
 
             else:
-
                 answer = round(answer, 10)
 
         st.session_state.calc_display = str(answer)
@@ -294,10 +597,6 @@ def clear():
     st.session_state.calc_display = "0"
 
 
-# =========================================================
-# CALCULATOR DISPLAY
-# =========================================================
-
 st.markdown(
     "### 💙 Ready to calculate? ✨"
 )
@@ -309,14 +608,10 @@ st.text_input(
 )
 
 
-# =========================================================
-# CALCULATOR ROW 1
-# =========================================================
-
+# Calculator row 1
 c1, c2, c3, c4 = st.columns(4)
 
 with c1:
-
     st.button(
         "7️⃣",
         use_container_width=True,
@@ -326,7 +621,6 @@ with c1:
     )
 
 with c2:
-
     st.button(
         "8️⃣",
         use_container_width=True,
@@ -336,7 +630,6 @@ with c2:
     )
 
 with c3:
-
     st.button(
         "9️⃣",
         use_container_width=True,
@@ -346,7 +639,6 @@ with c3:
     )
 
 with c4:
-
     st.button(
         "➗",
         use_container_width=True,
@@ -356,14 +648,10 @@ with c4:
     )
 
 
-# =========================================================
-# CALCULATOR ROW 2
-# =========================================================
-
+# Calculator row 2
 c1, c2, c3, c4 = st.columns(4)
 
 with c1:
-
     st.button(
         "4️⃣",
         use_container_width=True,
@@ -373,7 +661,6 @@ with c1:
     )
 
 with c2:
-
     st.button(
         "5️⃣",
         use_container_width=True,
@@ -383,7 +670,6 @@ with c2:
     )
 
 with c3:
-
     st.button(
         "6️⃣",
         use_container_width=True,
@@ -393,7 +679,6 @@ with c3:
     )
 
 with c4:
-
     st.button(
         "✖️",
         use_container_width=True,
@@ -403,14 +688,10 @@ with c4:
     )
 
 
-# =========================================================
-# CALCULATOR ROW 3
-# =========================================================
-
+# Calculator row 3
 c1, c2, c3, c4 = st.columns(4)
 
 with c1:
-
     st.button(
         "1️⃣",
         use_container_width=True,
@@ -420,7 +701,6 @@ with c1:
     )
 
 with c2:
-
     st.button(
         "2️⃣",
         use_container_width=True,
@@ -430,7 +710,6 @@ with c2:
     )
 
 with c3:
-
     st.button(
         "3️⃣",
         use_container_width=True,
@@ -440,7 +719,6 @@ with c3:
     )
 
 with c4:
-
     st.button(
         "➖",
         use_container_width=True,
@@ -450,14 +728,10 @@ with c4:
     )
 
 
-# =========================================================
-# CALCULATOR ROW 4
-# =========================================================
-
+# Calculator row 4
 c1, c2, c3, c4 = st.columns(4)
 
 with c1:
-
     st.button(
         "0️⃣",
         use_container_width=True,
@@ -467,7 +741,6 @@ with c1:
     )
 
 with c2:
-
     st.button(
         "🔵 .",
         use_container_width=True,
@@ -476,7 +749,6 @@ with c2:
     )
 
 with c3:
-
     st.button(
         "➕",
         use_container_width=True,
@@ -486,14 +758,12 @@ with c3:
     )
 
 with c4:
-
     st.button(
         "🟰",
         use_container_width=True,
         on_click=calculate,
         key="calculator_equals"
     )
-
 
 st.button(
     "🗑️ CLEAR",
@@ -517,33 +787,22 @@ st.write(
 )
 
 
-# =========================================================
-# GRADE FUNCTIONS
-# =========================================================
-
 def get_grade(percentage):
 
     if percentage >= 90:
         return "A+"
-
     elif percentage >= 85:
         return "A"
-
     elif percentage >= 80:
         return "B+"
-
     elif percentage >= 75:
         return "B"
-
     elif percentage >= 70:
         return "C+"
-
     elif percentage >= 65:
         return "C"
-
     elif percentage >= 60:
         return "D"
-
     else:
         return "F"
 
@@ -552,25 +811,18 @@ def get_gpa(percentage):
 
     if percentage >= 90:
         return 4.0
-
     elif percentage >= 85:
         return 3.7
-
     elif percentage >= 80:
         return 3.3
-
     elif percentage >= 75:
         return 3.0
-
     elif percentage >= 70:
         return 2.7
-
     elif percentage >= 65:
         return 2.3
-
     elif percentage >= 60:
         return 2.0
-
     else:
         return 0.0
 
@@ -584,10 +836,6 @@ number_of_subjects = st.number_input(
     key="number_of_subjects"
 )
 
-
-# =========================================================
-# GRADE FORM
-# =========================================================
 
 with st.form("grade_calculator_form"):
 
@@ -643,10 +891,6 @@ with st.form("grade_calculator_form"):
     )
 
 
-# =========================================================
-# GRADE RESULTS
-# =========================================================
-
 if calculate_grades:
 
     valid = True
@@ -672,7 +916,6 @@ if calculate_grades:
             valid = False
             break
 
-
     if valid:
 
         total_marks = sum(
@@ -693,28 +936,27 @@ if calculate_grades:
             percentage
         )
 
-
         subject_gpas = []
 
         for subject in subjects:
 
             subject_percentage = (
-                subject["marks"]
-                / subject["maximum"]
+                subject["marks"] /
+                subject["maximum"]
             ) * 100
 
             subject_gpas.append(
                 get_gpa(subject_percentage)
             )
 
-
         gpa = (
-            sum(subject_gpas)
-            / len(subject_gpas)
+            sum(subject_gpas) /
+            len(subject_gpas)
         )
 
-
-        st.header("🎉 Your Results")
+        st.header(
+            "🎉 Your Results"
+        )
 
         col1, col2 = st.columns(2)
 
@@ -732,7 +974,6 @@ if calculate_grades:
                 f"{percentage:.1f}%"
             )
 
-
         col1, col2 = st.columns(2)
 
         with col1:
@@ -749,13 +990,13 @@ if calculate_grades:
                 overall_grade
             )
 
-
-        st.header("📊 Overall Performance")
+        st.header(
+            "📊 Overall Performance"
+        )
 
         st.progress(
             min(percentage / 100, 1.0)
         )
-
 
         if percentage >= 90:
 
@@ -787,14 +1028,15 @@ if calculate_grades:
                 "💪 Keep working hard. You can improve!"
             )
 
-
-        st.header("📚 Subject Results")
+        st.header(
+            "📚 Subject Results"
+        )
 
         for subject in subjects:
 
             subject_percentage = (
-                subject["marks"]
-                / subject["maximum"]
+                subject["marks"] /
+                subject["maximum"]
             ) * 100
 
             subject_grade = get_grade(
@@ -867,12 +1109,33 @@ if "score" not in st.session_state:
 if "submitted" not in st.session_state:
     st.session_state.submitted = False
 
+if "quiz_title" not in st.session_state:
+    st.session_state.quiz_title = ""
+
 
 # =========================================================
 # QUIZ SETUP
 # =========================================================
 
 if st.session_state.quiz_page == "setup":
+
+    # =====================================================
+    # QUIZ TITLE
+    # =====================================================
+
+    quiz_title = st.text_input(
+        "🏷️ Quiz Title",
+        placeholder="Example: Biology Chapter 1 Quiz",
+        key="quiz_title_input"
+    )
+
+    st.caption(
+        "💡 Give your quiz a title so it appears when you start the quiz!"
+    )
+
+    # =====================================================
+    # NUMBER OF QUESTIONS
+    # =====================================================
 
     number = st.number_input(
         "🔢 How many questions?",
@@ -884,6 +1147,10 @@ if st.session_state.quiz_page == "setup":
     )
 
     questions = []
+
+    # =====================================================
+    # QUESTIONS
+    # =====================================================
 
     for i in range(int(number)):
 
@@ -942,14 +1209,28 @@ if st.session_state.quiz_page == "setup":
             "correct": correct
         })
 
+    # =====================================================
+    # START QUIZ
+    # =====================================================
 
     if st.button(
         "🚀 START QUIZ",
-        use_container_width=True
+        use_container_width=True,
+        key="start_quiz"
     ):
 
         valid = True
 
+        # Check title
+        if not quiz_title.strip():
+
+            st.error(
+                "⚠️ Please enter a title for your quiz."
+            )
+
+            valid = False
+
+        # Check questions
         for q in questions:
 
             if (
@@ -963,18 +1244,27 @@ if st.session_state.quiz_page == "setup":
                 valid = False
                 break
 
-
         if valid:
 
+            # Save title
+            st.session_state.quiz_title = (
+                quiz_title.strip()
+            )
+
+            # Save questions
             st.session_state.questions = questions
+
+            # Reset quiz
             st.session_state.current = 0
             st.session_state.score = 0
             st.session_state.submitted = False
+
+            # Go to quiz
             st.session_state.quiz_page = "quiz"
 
             st.rerun()
 
-        else:
+        elif quiz_title.strip():
 
             st.error(
                 "⚠️ Please fill in every question and every option."
@@ -982,7 +1272,7 @@ if st.session_state.quiz_page == "setup":
 
 
 # =========================================================
-# QUIZ
+# QUIZ PAGE
 # =========================================================
 
 elif st.session_state.quiz_page == "quiz":
@@ -995,19 +1285,24 @@ elif st.session_state.quiz_page == "quiz":
 
 
     # =====================================================
-    # QUIZ RESULTS
+    # RESULTS
     # =====================================================
 
     if current >= total:
 
-        st.subheader("🎉 Quiz Complete!")
+        st.header(
+            f"📚 {st.session_state.quiz_title}"
+        )
+
+        st.subheader(
+            "🎉 Quiz Complete!"
+        )
 
         score = st.session_state.score
 
         percentage = (
             score / total
         ) * 100
-
 
         col1, col2 = st.columns(2)
 
@@ -1025,6 +1320,9 @@ elif st.session_state.quiz_page == "quiz":
                 f"{percentage:.1f}%"
             )
 
+        st.progress(
+            percentage / 100
+        )
 
         if percentage >= 90:
 
@@ -1050,17 +1348,23 @@ elif st.session_state.quiz_page == "quiz":
                 "📚 Keep practicing! You'll improve!"
             )
 
-
         if st.button(
             "🔄 CREATE NEW QUIZ",
-            use_container_width=True
+            use_container_width=True,
+            key="new_quiz"
         ):
 
             st.session_state.quiz_page = "setup"
+
             st.session_state.questions = []
+
             st.session_state.current = 0
+
             st.session_state.score = 0
+
             st.session_state.submitted = False
+
+            st.session_state.quiz_title = ""
 
             st.rerun()
 
@@ -1073,6 +1377,14 @@ elif st.session_state.quiz_page == "quiz":
 
         q = questions[current]
 
+        # =================================================
+        # QUIZ TITLE
+        # =================================================
+
+        st.header(
+            f"📚 {st.session_state.quiz_title}"
+        )
+
         st.write(
             f"**❓ Question {current + 1} of {total}**"
         )
@@ -1081,10 +1393,15 @@ elif st.session_state.quiz_page == "quiz":
             (current + 1) / total
         )
 
-        st.header(
+        st.divider()
+
+        # =================================================
+        # QUESTION
+        # =================================================
+
+        st.subheader(
             q["question"]
         )
-
 
         letters = [
             "A",
@@ -1093,11 +1410,11 @@ elif st.session_state.quiz_page == "quiz":
             "D"
         ]
 
-
         def answer_text(letter):
 
-            return f"{letter}     {q[letter]}"
-
+            return (
+                f"{letter}     {q[letter]}"
+            )
 
         selected = st.radio(
             "💭 Choose your answer:",
@@ -1108,11 +1425,16 @@ elif st.session_state.quiz_page == "quiz":
         )
 
 
+        # =================================================
+        # SUBMIT
+        # =================================================
+
         if not st.session_state.submitted:
 
             if st.button(
                 "✅ SUBMIT ANSWER",
-                use_container_width=True
+                use_container_width=True,
+                key=f"submit_{current}"
             ):
 
                 if selected == q["correct"]:
@@ -1123,6 +1445,10 @@ elif st.session_state.quiz_page == "quiz":
 
                 st.rerun()
 
+
+        # =================================================
+        # ANSWER FEEDBACK
+        # =================================================
 
         else:
 
@@ -1140,23 +1466,35 @@ elif st.session_state.quiz_page == "quiz":
                 )
 
 
+            # =============================================
+            # NEXT QUESTION
+            # =============================================
+
             if current + 1 < total:
 
                 if st.button(
                     "➡️ NEXT QUESTION",
-                    use_container_width=True
+                    use_container_width=True,
+                    key=f"next_{current}"
                 ):
 
                     st.session_state.current += 1
+
                     st.session_state.submitted = False
 
                     st.rerun()
+
+
+            # =============================================
+            # SEE RESULTS
+            # =============================================
 
             else:
 
                 if st.button(
                     "🏆 SEE RESULTS",
-                    use_container_width=True
+                    use_container_width=True,
+                    key="see_results"
                 ):
 
                     st.session_state.current += 1
