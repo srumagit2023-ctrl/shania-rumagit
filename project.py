@@ -5,7 +5,7 @@ import streamlit as st
 # =========================================================
 
 st.set_page_config(
-    page_title="My App 💙",
+    page_title="Welcome 💙",
     page_icon="💙",
     layout="centered"
 )
@@ -613,7 +613,7 @@ c1, c2, c3, c4 = st.columns(4)
 
 with c1:
     st.button(
-        "7️⃣",
+        "7️",
         use_container_width=True,
         on_click=add_number,
         args=("7",),
@@ -622,7 +622,7 @@ with c1:
 
 with c2:
     st.button(
-        "8️⃣",
+        "8️",
         use_container_width=True,
         on_click=add_number,
         args=("8",),
@@ -631,7 +631,7 @@ with c2:
 
 with c3:
     st.button(
-        "9️⃣",
+        "9️",
         use_container_width=True,
         on_click=add_number,
         args=("9",),
@@ -653,7 +653,7 @@ c1, c2, c3, c4 = st.columns(4)
 
 with c1:
     st.button(
-        "4️⃣",
+        "4️",
         use_container_width=True,
         on_click=add_number,
         args=("4",),
@@ -662,7 +662,7 @@ with c1:
 
 with c2:
     st.button(
-        "5️⃣",
+        "5️",
         use_container_width=True,
         on_click=add_number,
         args=("5",),
@@ -671,7 +671,7 @@ with c2:
 
 with c3:
     st.button(
-        "6️⃣",
+        "6️",
         use_container_width=True,
         on_click=add_number,
         args=("6",),
@@ -693,7 +693,7 @@ c1, c2, c3, c4 = st.columns(4)
 
 with c1:
     st.button(
-        "1️⃣",
+        "1️",
         use_container_width=True,
         on_click=add_number,
         args=("1",),
@@ -702,7 +702,7 @@ with c1:
 
 with c2:
     st.button(
-        "2️⃣",
+        "2️",
         use_container_width=True,
         on_click=add_number,
         args=("2",),
@@ -711,7 +711,7 @@ with c2:
 
 with c3:
     st.button(
-        "3️⃣",
+        "3️",
         use_container_width=True,
         on_click=add_number,
         args=("3",),
@@ -733,7 +733,7 @@ c1, c2, c3, c4 = st.columns(4)
 
 with c1:
     st.button(
-        "0️⃣",
+        "0️",
         use_container_width=True,
         on_click=add_number,
         args=("0",),
@@ -742,7 +742,7 @@ with c1:
 
 with c2:
     st.button(
-        "🔵 .",
+        " .",
         use_container_width=True,
         on_click=add_decimal,
         key="calculator_decimal"
@@ -1500,3 +1500,223 @@ elif st.session_state.quiz_page == "quiz":
                     st.session_state.current += 1
 
                     st.rerun()
+
+
+import streamlit as st
+import random
+
+# ==========================================
+# GUESS THE NUMBER GAME
+# ==========================================
+
+st.title("🎯 Guess the Number")
+st.write("Choose your settings and try to guess the secret number!")
+
+# ==========================================
+# SESSION STATE
+# ==========================================
+
+if "game_started" not in st.session_state:
+    st.session_state.game_started = False
+
+if "game_finished" not in st.session_state:
+    st.session_state.game_finished = False
+
+if "attempts_used" not in st.session_state:
+    st.session_state.attempts_used = 0
+
+if "secret_number" not in st.session_state:
+    st.session_state.secret_number = None
+
+if "max_attempts" not in st.session_state:
+    st.session_state.max_attempts = 5
+
+if "feedback" not in st.session_state:
+    st.session_state.feedback = ""
+
+# ==========================================
+# GAME SETTINGS
+# ==========================================
+
+if not st.session_state.game_started:
+
+    st.subheader("⚙️ Game Settings")
+
+    with st.form("game_settings"):
+
+        difficulty = st.selectbox(
+            "Choose Difficulty",
+            [
+                "Very Easy (1–10)",
+                "Easy (1–50)",
+                "Normal (1–100)",
+                "Hard (1–500)"
+            ]
+        )
+
+        attempts = st.number_input(
+            "Number of Attempts",
+            min_value=1,
+            max_value=50,
+            value=5,
+            step=1
+        )
+
+        start_game = st.form_submit_button(
+            "🚀 START GAME",
+            use_container_width=True
+        )
+
+    if start_game:
+
+        difficulty_ranges = {
+            "Very Easy (1–10)": (1, 10),
+            "Easy (1–50)": (1, 50),
+            "Normal (1–100)": (1, 100),
+            "Hard (1–500)": (1, 500)
+        }
+
+        minimum, maximum = difficulty_ranges[difficulty]
+
+        st.session_state.secret_number = random.randint(
+            minimum, maximum
+        )
+
+        st.session_state.minimum = minimum
+        st.session_state.maximum = maximum
+        st.session_state.max_attempts = int(attempts)
+        st.session_state.attempts_used = 0
+        st.session_state.feedback = ""
+        st.session_state.game_started = True
+        st.session_state.game_finished = False
+
+        st.rerun()
+
+# ==========================================
+# GAME SCREEN
+# ==========================================
+
+if st.session_state.game_started:
+
+    st.subheader("🎮 Game Started!")
+
+    st.write(
+        f"Guess a number between **{st.session_state.minimum} "
+        f"and {st.session_state.maximum}**."
+    )
+
+    remaining = (
+        st.session_state.max_attempts
+        - st.session_state.attempts_used
+    )
+
+    st.metric(
+        "Attempts Remaining",
+        f"{remaining}/{st.session_state.max_attempts}"
+    )
+
+    st.progress(
+        st.session_state.attempts_used
+        / st.session_state.max_attempts
+    )
+
+    # ==========================================
+    # GUESS INPUT
+    # ==========================================
+
+    if not st.session_state.game_finished:
+
+        with st.form("guess_form"):
+
+            guess = st.number_input(
+                "Enter your guess:",
+                min_value=st.session_state.minimum,
+                max_value=st.session_state.maximum,
+                step=1,
+                value=st.session_state.minimum,
+                key="guess_input"
+            )
+
+            submit_guess = st.form_submit_button(
+                "✨ SUBMIT GUESS",
+                use_container_width=True
+            )
+
+        if submit_guess:
+
+            st.session_state.attempts_used += 1
+
+            if guess == st.session_state.secret_number:
+
+                st.session_state.feedback = (
+                    "🎉 CORRECT! YOU WON!"
+                )
+
+                st.session_state.game_finished = True
+
+                st.balloons()
+
+            elif st.session_state.attempts_used >= st.session_state.max_attempts:
+
+                st.session_state.feedback = (
+                    f"😢 Game Over! The number was "
+                    f"{st.session_state.secret_number}."
+                )
+
+                st.session_state.game_finished = True
+
+            elif guess < st.session_state.secret_number:
+
+                st.session_state.feedback = (
+                    "📈 Too low! Try a higher number."
+                )
+
+            else:
+
+                st.session_state.feedback = (
+                    "📉 Too high! Try a lower number."
+                )
+
+            st.rerun()
+
+    # ==========================================
+    # FEEDBACK
+    # ==========================================
+
+    if st.session_state.feedback:
+
+        st.info(st.session_state.feedback)
+
+    # ==========================================
+    # PLAY AGAIN
+    # ==========================================
+
+    if st.session_state.game_finished:
+
+        if st.button(
+            "🔄 PLAY AGAIN",
+            use_container_width=True
+        ):
+
+            st.session_state.game_started = False
+            st.session_state.game_finished = False
+            st.session_state.attempts_used = 0
+            st.session_state.secret_number = None
+            st.session_state.feedback = ""
+
+            st.rerun()
+
+    else:
+
+        if st.button(
+            "❌ END GAME",
+            use_container_width=True
+        ):
+
+            st.session_state.game_started = False
+            st.session_state.game_finished = False
+            st.session_state.attempts_used = 0
+            st.session_state.secret_number = None
+            st.session_state.feedback = ""
+
+            st.rerun()
